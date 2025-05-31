@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Región Las Montañas de Veracruz</title>
+<style>
+  /* Reset básico */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f8ff; /* azul claro muy suave */
+    color: #333;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    background: #add8e6; /* azul claro */
+    color: #1d3557;
+    padding: 20px 30px;
+    box-shadow: 0 4px 12px rgba(173, 216, 230, 0.7);
+    z-index: 1000;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+
+  header h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    animation: fadeInDown 1s ease forwards;
+  }
+
+  nav {
+    margin-top: 12px;
+    animation: fadeInDown 1s ease forwards;
+    animation-delay: 0.3s;
+    opacity: 0;
+  }
+
+  nav.visible {
+    opacity: 1;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  nav ul li {
+    position: relative;
+  }
+
+  nav ul li a {
+    color: #1d3557;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    cursor: pointer;
+  }
+
+  nav ul li a:hover,
+  nav ul li a:focus {
+    background-color: #4682b4; /* steelblue */
+    color: white;
+    outline: none;
+  }
+
+  /* Menú desplegable */
+  nav ul li ul.dropdown {
+    position: absolute;
+    top: 44px;
+    left: 0;
+    background: #e6f0fa; /* azul muy suave */
+    border-radius: 10px;
+    min-width: 180px;
+    box-shadow: 0 8px 20px rgba(70, 130, 180, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    z-index: 1100;
+  }
+
+  nav ul li:hover > ul.dropdown,
+  nav ul li:focus-within > ul.dropdown {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  nav ul li ul.dropdown li a {
+    display: block;
+    padding: 12px 20px;
+    color: #264653; /* azul oscuro */
+    font-weight: 600;
+  }
+
+  nav ul li ul.dropdown li a:hover,
+  nav ul li ul.dropdown li a:focus {
+    background: #4682b4;
+    color: white;
+    outline: none;
+  }
+
+  main {
+    margin: 110px 20px 50px 20px;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: auto;
+    display: flex;
+    gap: 25px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  section {
+    scroll-snap-align: start;
+    flex: 0 0 90vw; /* cada sección ocupa 90% del ancho de viewport */
+    background: #e6f0fa;
+    padding: 30px 35px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(70, 130, 180, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 1s ease;
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  section:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(70, 130, 180, 0.5);
+  }
+
+  section h2 {
+    color: #264653;
+    margin-bottom: 18px;
+    border-bottom: 4px solid #4682b4;
+    padding-bottom: 10px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  section h3 {
+    color: #2a5980;
+    margin-top: 25px;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+
+  section p {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+  }
+
+  section img {
+    max-width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 5px 18px rgba(70, 130, 180, 0.25);
+    margin-top: 15px;
+  }
+
+  a.inline-link {
+    color: #4682b4;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom-color 0.3s ease;
+  }
+
+  a.inline-link:hover,
+  a.inline-link:focus {
+    border-bottom-color: #2a5980;
+    outline: none;
+  }
+
+  footer {
+    background: #add8e6;
+    color: #1d3557;
+    text-align: center;
+    padding: 25px 20px;
+    font-size: 0.9rem;
+    border-radius: 0 0 15px 15px;
+    box-shadow: inset 0 4px 15px rgba(173, 216, 230, 0.7);
+    font-family: 'Poppins', sans-serif;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    main {
+      flex-direction: column;
+      overflow-x: visible;
+    }
+    section {
+      flex: none;
+      width: auto;
+      margin-bottom: 30px;
+    }
+  }
+
+  /* Animaciones */
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Región "Las Montañas" de Veracruz</h1>
+  <nav aria-label="Menú principal" id="main-nav">
+    <ul>
+      <li><a href="#introduccion" tabindex="1">Introducción</a></li>
+      <li><a href="#derecho" tabindex="2">Derecho</a></li>
+      <li><a href="#comunicacion" tabindex="3">Comunicación</a></li>
+      <li><a href="#psicologia" tabindex="4">Psicología</a></li>
+      <li><a href="#estetica" tabindex="5">Estética</a></li>
+      <li><a href="#ecologia" tabindex="6">Ecología</a></li>
+      <li tabindex="7">
+        <a href="#" aria-haspopup="true" aria-expanded="false" aria-controls="submenu-curiosidades">Curiosidades ▼</a>
+        <ul class="dropdown" id="submenu-curiosidades" role="menu" aria-label="Curiosidades">
+          <li><a href="#curiosidad1" role="menuitem" tabindex="-1">Flora única</a></li>
+          <li><a href="#curiosidad2" role="menuitem" tabindex="-1">Festividades locales</a></li>
+          <li><a href="#curiosidad3" role="menuitem" tabindex="-1">Leyendas populares</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+<section id="introduccion" tabindex="8" aria-label="Introducción" class="hidden">
+  <h2>Introducción</h2>
+  <p>La región de <strong>Las Montañas</strong> en Veracruz es un espacio rico en diversidad cultural, natural y social. Su orografía montañosa crea microclimas que favorecen una gran variedad de flora y fauna, además de conservar tradiciones ancestrales.</p>
+  <p>Este sitio busca ofrecer una visión multidisciplinaria para entender mejor la complejidad y riqueza de esta zona única.</p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Veracruz_-_Las_Montanas.jpg" alt="Montañas de Veracruz" />
+  <p>Para más detalles geográficos, visita <a href="https://es.wikipedia.org/wiki/Veracruz_de_Ignacio_de_la_Llave" target="_blank" rel="noopener" class="inline-link">Wikipedia Veracruz</a>.</p>
+</section>
+
+<section id="derecho" tabindex="9" aria-label="Derecho" class="hidden">
+  <h2>Derecho</h2>
+  <p>En Las Montañas, la economía local depende mucho del trabajo agrícola y las actividades informales, lo que influye en las condiciones laborales. Aunque existen contratos individuales, la formalización y acceso a seguridad social son limitados para muchos trabajadores.</p>
+  <p>Los derechos laborales, como la protección contra despidos injustificados y acceso a prestaciones, son fundamentales para mejorar las condiciones de vida.</p>
+  <p>Consulta leyes y programas en la <a href="https://www.gob.mx/stps" target="_blank" rel="noopener" class="inline-link">Secretaría del Trabajo y Previsión Social</a>, el <a href="https://www.ilo.org/global/lang--es/index.htm" target="_blank" rel="noopener" class="inline-link">Organización Internacional del Trabajo (OIT)</a> y <a href="https://www.inegi.org.mx" target="_blank" rel="noopener" class="inline-link">INEGI</a> para estadísticas laborales.</p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Trabajadores_agricolas_Mexico.jpg" alt="Trabajadores agrícolas en México" />
+</section>
+
+<section id="comunicacion" tabindex="10" aria-label="Ciencias de la Comunicación" class="hidden">
+  <h2>Ciencias de la Comunicación</h2>
+  <p>La región presenta una comunicación mayormente oral, apoyada por radios comunitarias y el creciente uso de redes sociales, especialmente WhatsApp y Facebook, que facilitan la difusión de información.</p>
+  <p>Los medios comunitarios son cruciales para preservar las lenguas indígenas y tradiciones locales.</p>
+  <p>Conoce más en <a href="https://www.radiocomunitaria.mx" target="_blank" rel="noopener" class="inline-link">Radio Comunitaria México</a>, la <a href="https://www.unesco.org/es" target="_blank" rel="noopener" class="inline-link">UNESCO</a> y el <a href="https://www.amcnet.org.mx" target="_blank" rel="noopener" class="inline-link">AMC México</a> (Asociación Mexicana de Comunicación).</p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Radio_Antenna_in_Mexico.jpg" alt="Antena de radio" />
+</section>
+
+<section id="psicologia" tabindex="11" aria-label="Psicología" class="hidden">
+  <h2>Psicología</h2>
+  <p>La identidad cultural y el sentido de comunidad fortalecen el bienestar psicológico de los habitantes, aunque la migración y la pobreza afectan la salud emocional.</p>
+  <p>Es vital apoyar la salud mental rural con programas accesibles y respeto por las tradiciones.</p>
+  <p>Recursos disponibles en la <a href="https://www.salud.gob.mx" target="_blank" rel="noopener" class="inline-link">Secretaría de Salud</a>, la <a href="https://www.who.int/es/health-topics/mental-health" target="_blank" rel="noopener" class="inline-link">OMS</a> y el <a href="https://psicologiaymente.com/clinica/atencion-salud-mental-rural" target="_blank" rel="noopener" class="inline-link">Artículo sobre salud mental rural</a>.</p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/People_meeting.jpg" alt="Comunidad reunida" />
+</section>
+
+<section id="estetica" tabindex="12" aria-label="Estética" class="hidden">
+  <h2>Estética</h2>
+  <p>La región cuenta con pueblos mágicos, cascadas como el Velo de Novia y sitios arqueológicos que forman un patrimonio cultural y natural de gran valor.</p>
+  <p>El turismo cultural y natural contribuye al desarrollo sostenible y al orgullo de los habitantes.</p>
+  <p>Más información en <a href="https://www.gob.mx/sectur/articulos/pueblos-magicos" target="_blank" rel="noopener" class="inline-link">Pueblos Mágicos México</a> y <a href="https://www.visitmexico.com/es/destinos-principales/veracruz" target="_blank" rel="noopener" class="inline-link">Visit México Veracruz</a>.</p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Cascada_Velo_de_Novia.jpg" alt="Cascada Velo de Novia" />
+</section>
+
+<section id="ecologia" tabindex="13" aria-label="Ecología" class="hidden">
+  <h2>Ecología</h2>
+  <p>Las Montañas albergan ecosistemas diversos, desde bosques templados hasta selvas húmedas, con flora y fauna únicas, algunas especies endémicas o en peligro de extinción.</p>
+  <p>La conservación ambiental es fundamental para mantener el equilibrio y el bienestar de las comunidades.</p>
+  <p>Visita la <a href="https://www.conanp.gob.mx" target="_blank" rel="noopener" class="inline-link">CONANP</a>, <a href="https://www.semarnat.gob.mx" target="_blank" rel="noopener" class="inline-link">SEMARNAT</a> y <a href="https://www.biodiversidad.gob.mx" target="_blank" rel="noopener" class="inline-link">CONABIO</a> para más datos.</p>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Bosque_Nublado_Mexico.jpg" alt="Bosque nuboso en Veracruz" />
+</section>
+
+<section id="curiosidades" tabindex="14" aria-label="Curiosidades" class="hidden">
+  <h2>Curiosidades sobre Las Montañas</h2>
+
+  <article id="curiosidad1">
+    <h3>Flora única</h3>
+    <p>Las Montañas albergan orquídeas raras y helechos que no crecen en otros lugares. Investigadores visitan la zona para estudiar esta biodiversidad.</p>
+    <p>Consulta <a href="https://www.conabio.gob.mx" target="_blank" rel="noopener" class="inline-link">CONABIO</a> y el <a href="https://www.botanicalgarden.ubc.ca" target="_blank" rel="noopener" class="inline-link">Jardín Botánico UBC</a>.</p>
+  </article>
+
+  <article id="curiosidad2">
+    <h3>Festividades locales</h3>
+    <p>Destacan la Fiesta de la Virgen de la Candelaria y la Danza de los Tlacololeros, que combinan música, danza y espiritualidad.</p>
+    <p>Más en <a href="https://veracruz.mx/cultura" target="_blank" rel="noopener" class="inline-link">Cultura Veracruz</a>.</p>
+  </article>
+
+  <article id="curiosidad3">
+    <h3>Leyendas populares</h3>
+    <p>La leyenda del Nahual habla de seres con poderes sobrenaturales que protegen la naturaleza.</p>
+    <p>Descubre más en <a href="https://www.mexicodesconocido.com.mx/mitos-y-leyendas-de-veracruz.html" target="_blank" rel="noopener" class="inline-link">México Desconocido</a> y <a href="https://leyendas-mexicanas.com" target="_blank" rel="noopener" class="inline-link">Leyendas Mexicanas</a>.</p>
+  </article>
+
+</section>
+
+</main>
+
+<footer>
+  <p>Proyecto educativo basado en fuentes oficiales y recursos libres. Imágenes tomadas de Wikimedia Commons.</p>
+</footer>
+
+<script>
+  // Animar visibilidad de secciones al hacer scroll horizontal
+  function onEntry(entry) {
+    entry.forEach(change => {
+      if (change.isIntersecting) {
+        change.target.classList.add('visible');
+      }
+    });
+  }
+
+  let options = { threshold: [0.1] };
+  let observer = new IntersectionObserver(onEntry, options);
+  let sections = document.querySelectorAll('section');
+
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+
+  // Añadir clase visible a nav tras carga para animar fadeIn
+  window.addEventListener('load', () => {
+    document.querySelector('nav').classList.add('visible');
+  });
+</script>
+
+</body>
+</html>
